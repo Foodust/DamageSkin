@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Transformation;
+import org.bukkit.util.Vector;
 import org.foodust.damageSkin.Data.AnimateData;
 import org.joml.Vector3d;
 
@@ -88,6 +89,28 @@ public class DisplayModule {
         textDisplay.setText(text);
         Transformation transformation = textDisplay.getTransformation();
         transformation.getScale().set(size);
+        textDisplay.setTransformation(transformation);
+        AnimateData.ENTITIES.add(textDisplay);
+        return textDisplay;
+    }
+
+    public TextDisplay makeTextDisplay(Entity entity, Location location, String text, Double size, Display.Billboard billboard) {
+        TextDisplay textDisplay = entity.getWorld().spawn(location, TextDisplay.class);
+        textDisplay.setText(text);
+        textDisplay.setBillboard(billboard);
+        Transformation transformation = textDisplay.getTransformation();
+        transformation.getScale().set(size);
+        textDisplay.setTransformation(transformation);
+        AnimateData.ENTITIES.add(textDisplay);
+        return textDisplay;
+    }
+
+    public TextDisplay makeTextDisplay(Entity entity, Location location, String text, Vector size, Display.Billboard billboard) {
+        TextDisplay textDisplay = entity.getWorld().spawn(location, TextDisplay.class);
+        textDisplay.setText(text);
+        textDisplay.setBillboard(billboard);
+        Transformation transformation = textDisplay.getTransformation();
+        transformation.getScale().set(size.getX(), size.getY(), size.getZ());
         textDisplay.setTransformation(transformation);
         AnimateData.ENTITIES.add(textDisplay);
         return textDisplay;

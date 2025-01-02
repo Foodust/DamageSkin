@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.foodust.damageSkin.BaseModule.ConfigModule;
 import org.foodust.damageSkin.Command.CommandManager;
 import org.foodust.damageSkin.Data.TaskData;
 import org.foodust.damageSkin.Event.EventManager;
@@ -34,6 +35,7 @@ public final class DamageSkin extends JavaPlugin {
         this.plugin = this;
         CommandManager commandManager = new CommandManager(this);
         EventManager eventManager = new EventManager(this.getServer(), this);
+        new ConfigModule(this).initialize();
     }
 
     @Override
@@ -44,6 +46,6 @@ public final class DamageSkin extends JavaPlugin {
             this.adventure.close();
             this.adventure = null;
         }
-        TaskData.release();
+        new ConfigModule(this).release();
     }
 }

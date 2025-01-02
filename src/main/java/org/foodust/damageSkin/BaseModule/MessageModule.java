@@ -34,6 +34,9 @@ public class MessageModule {
     public void logInfo(String arg) {
         plugin.getLog().info(prefix + arg);
     }
+    public void logWarning(String arg) {
+        plugin.getLog().warning(prefix + arg);
+    }
 
     public void logInfoNoPrefix(String arg) {
         plugin.getLog().info(arg);
