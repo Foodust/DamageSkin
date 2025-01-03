@@ -129,7 +129,7 @@ public class ConfigModule {
 
         // 기본 값 설정
         builder.duration(config.getLong("duration", 0));
-        builder.speed(config.getDouble("speed", 0));
+        builder.speed(config.getDouble("location.speed", 0));
 
         // Location Vector 설정
         double locX = config.getDouble("location.x", 0);
@@ -156,18 +156,18 @@ public class ConfigModule {
     }
 
     public void commandSet(CommandSender sender, String[] data) {
-        if (data.length < 2) {
+        if (data.length < 3) {
             messageModule.sendPlayerC(sender, BaseMessage.ERROR_WRONG_COMMAND.getMessage());
             return;
         }
-        String playerName = data[0];
+        String playerName = data[1];
 
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             messageModule.sendPlayerC(sender, BaseMessage.ERROR_NO_PLAYER.getMessage());
             return;
         }
-        String skinName = data[1];
+        String skinName = data[2];
         if (!SkinData.skins.containsKey(skinName)) {
             messageModule.sendPlayerC(sender, BaseMessage.ERROR_NO_SKIN.getMessage() + skinName);
             return;
@@ -191,12 +191,12 @@ public class ConfigModule {
     }
 
     public void commandRemove(CommandSender sender, String[] data) {
-        if (data.length < 1) {
+        if (data.length < 2) {
             messageModule.sendPlayerC(sender, BaseMessage.ERROR_WRONG_COMMAND.getMessage());
             return;
         }
 
-        String playerName = data[0];
+        String playerName = data[1];
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             messageModule.sendPlayerC(sender, BaseMessage.ERROR_NO_PLAYER.getMessage());

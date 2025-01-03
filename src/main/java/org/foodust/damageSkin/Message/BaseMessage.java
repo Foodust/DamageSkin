@@ -43,7 +43,7 @@ public enum BaseMessage {
     private static final Map<String, BaseMessage> commandInfo = new HashMap<>();
 
     static {
-        for (BaseMessage baseMessage : EnumSet.range(COMMAND_DAMAGE_SKIN, COMMAND_DAMAGE_SKIN)) {
+        for (BaseMessage baseMessage : EnumSet.range(COMMAND_SET, COMMAND_RELOAD)) {
             commandInfo.put(baseMessage.message, baseMessage);
         }
     }

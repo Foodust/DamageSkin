@@ -46,7 +46,6 @@ public class DamageSkinModule {
 
     public void DamagedTarget(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player)) return;
-
         Entity entity = event.getEntity();
         double damage = event.getDamage();
         Location entityLocation = entity.getLocation();
@@ -54,7 +53,9 @@ public class DamageSkinModule {
 
         // 1. playerSkins에서 SkinInfo 확인
         SkinInfo skinInfo = SkinData.playerSkins.get(uuid);
-        if (skinInfo == null) return;
+        if (skinInfo == null) {
+            return;
+        }
 
         // 데미지 텍스트 포맷팅 (characters에서 가져오거나 기본값 사용)
         String damageText = convertDamageToCustomText(skinInfo, damage);
@@ -73,16 +74,15 @@ public class DamageSkinModule {
                 skinInfo.getSize(),
                 skinInfo.getBillboard()
         );
+        textDisplay.setDefaultBackground(false);
+        textDisplay.setShadowed(false);
 
         // 3 & 4. 애니메이션 처리 (duration 동안 location만큼 상승)
         long duration = skinInfo.getDuration();
         double speed = skinInfo.getSpeed();
         Vector moveVector = skinInfo.getLocation().clone();
-
         // 이동 태스크 생성
         BukkitTask moveTask = taskModule.runBukkitTaskTimer(() -> {
-            if (!textDisplay.isValid()) return;
-
             Location currentLoc = textDisplay.getLocation();
             currentLoc.add(
                     moveVector.getX() * speed,
@@ -91,7 +91,6 @@ public class DamageSkinModule {
             );
             textDisplay.teleport(currentLoc);
         }, 0L, 1L); // speed초마다 실행
-
         // duration 후 제거 태스크
 
         taskModule.runBukkitTaskLater(() -> {

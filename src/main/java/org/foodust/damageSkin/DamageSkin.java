@@ -41,11 +41,11 @@ public final class DamageSkin extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        new ConfigModule(this).release();
 
         if (this.adventure != null) {
             this.adventure.close();
             this.adventure = null;
         }
-        new ConfigModule(this).release();
     }
 }

@@ -27,7 +27,7 @@ public class CommandSub implements TabCompleter {
                 case COMMAND_SET, COMMAND_REMOVE -> StringUtil.copyPartialMatches(args[1], whoSub, completions);
             }
         } else if (args.length == 3) {
-            StringUtil.copyPartialMatches(args[1], skinsSub, completions);
+            StringUtil.copyPartialMatches(args[2], skinsSub, completions);
         }
         Collections.sort(completions);
         return completions;
