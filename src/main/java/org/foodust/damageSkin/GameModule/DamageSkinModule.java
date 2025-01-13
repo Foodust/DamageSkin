@@ -48,7 +48,6 @@ public class DamageSkinModule {
         if (!(event.getDamager() instanceof Player player)) return;
         Entity entity = event.getEntity();
         double damage = event.getDamage();
-        Location entityLocation = entity.getLocation();
         UUID uuid = player.getUniqueId();
 
         // 1. playerSkins에서 SkinInfo 확인
@@ -57,11 +56,12 @@ public class DamageSkinModule {
             return;
         }
 
-        // 데미지 텍스트 포맷팅 (characters에서 가져오거나 기본값 사용)
+        // 데미지 텍스트 포맷팅
         String damageText = convertDamageToCustomText(skinInfo, damage);
 
-        // 2. TextDisplay 생성
-        Location displayLocation = entityLocation.clone().add(
+        // 엔티티의 현재 위치를 기준으로 TextDisplay 생성
+        Location entityLocation = entity.getLocation();
+        Location initialDisplayLocation = entityLocation.clone().add(
                 skinInfo.getLocation().getX(),
                 skinInfo.getLocation().getY(),
                 skinInfo.getLocation().getZ()
@@ -69,7 +69,7 @@ public class DamageSkinModule {
 
         TextDisplay textDisplay = displayModule.makeTextDisplay(
                 entity,
-                displayLocation,
+                initialDisplayLocation,
                 damageText,
                 skinInfo.getSize(),
                 skinInfo.getBillboard()
@@ -77,22 +77,35 @@ public class DamageSkinModule {
         textDisplay.setDefaultBackground(false);
         textDisplay.setShadowed(false);
 
-        // 3 & 4. 애니메이션 처리 (duration 동안 location만큼 상승)
+        // 애니메이션 관련 변수
         long duration = skinInfo.getDuration();
         double speed = skinInfo.getSpeed();
         Vector moveVector = skinInfo.getLocation().clone();
+        Location lastKnownEntityLocation = entityLocation.clone();
+
         // 이동 태스크 생성
         BukkitTask moveTask = taskModule.runBukkitTaskTimer(() -> {
-            Location currentLoc = textDisplay.getLocation();
-            currentLoc.add(
-                    moveVector.getX() * speed,
-                    moveVector.getY() * speed,
-                    moveVector.getZ() * speed
-            );
-            textDisplay.teleport(currentLoc);
-        }, 0L, 1L); // speed초마다 실행
-        // duration 후 제거 태스크
+            // 엔티티의 현재 위치와 마지막으로 알려진 위치의 차이 계산
+            Location currentEntityLocation = entity.getLocation();
+            Vector locationDiff = currentEntityLocation.toVector().subtract(lastKnownEntityLocation.toVector());
 
+            // TextDisplay의 현재 위치 업데이트
+            Location currentDisplayLoc = textDisplay.getLocation();
+            currentDisplayLoc.add(
+                    moveVector.getX() * speed + locationDiff.getX(),
+                    moveVector.getY() * speed + locationDiff.getY(),
+                    moveVector.getZ() * speed + locationDiff.getZ()
+            );
+
+            textDisplay.teleport(currentDisplayLoc);
+
+            // 마지막 알려진 엔티티 위치 업데이트
+            lastKnownEntityLocation.setX(currentEntityLocation.getX());
+            lastKnownEntityLocation.setY(currentEntityLocation.getY());
+            lastKnownEntityLocation.setZ(currentEntityLocation.getZ());
+        }, 0L, 1L);
+
+        // duration 후 제거 태스크
         taskModule.runBukkitTaskLater(() -> {
             taskModule.cancelBukkitTask(moveTask);
             textDisplay.remove();
