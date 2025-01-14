@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.foodust.damageSkin.BaseModule.DisplayModule;
 import org.foodust.damageSkin.BaseModule.ItemModule;
@@ -15,6 +16,7 @@ import org.foodust.damageSkin.DamageSkin;
 import org.foodust.damageSkin.Data.SkinData;
 import org.foodust.damageSkin.Data.info.SkinInfo;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class DamageSkinModule {
@@ -59,12 +61,24 @@ public class DamageSkinModule {
         // 데미지 텍스트 포맷팅
         String damageText = convertDamageToCustomText(skinInfo, damage);
 
-        // 엔티티의 현재 위치를 기준으로 TextDisplay 생성
-        Location entityLocation = entity.getLocation();
+        // 랜덤 위치 생성
+        Vector minRandom = skinInfo.getMinRandom();
+        Vector maxRandom = skinInfo.getMaxRandom();
+        Random random = new Random();
+        // min과 max 사이의 랜덤값 계산
+        double randomX = minRandom.getX() + random.nextDouble() * (maxRandom.getX() - minRandom.getX());
+        double randomY = minRandom.getY() + random.nextDouble() * (maxRandom.getY() - minRandom.getY());
+        double randomZ = minRandom.getZ() + random.nextDouble() * (maxRandom.getZ() - minRandom.getZ());
+
+        // 엔티티의 바운딩 박스 기준으로 TextDisplay 생성
+        BoundingBox boundingBox = entity.getBoundingBox();
+        Vector center = boundingBox.getCenter();
+        Location entityLocation = new Location(player.getWorld(), center.getX(), center.getY() + 1, center.getZ());
+
         Location initialDisplayLocation = entityLocation.clone().add(
-                skinInfo.getLocation().getX(),
-                skinInfo.getLocation().getY(),
-                skinInfo.getLocation().getZ()
+                skinInfo.getLocation().getX() + randomX,
+                skinInfo.getLocation().getY() + randomY,
+                skinInfo.getLocation().getZ() + randomZ
         );
 
         TextDisplay textDisplay = displayModule.makeTextDisplay(

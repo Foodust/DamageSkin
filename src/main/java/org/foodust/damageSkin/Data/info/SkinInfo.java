@@ -28,5 +28,11 @@ public class SkinInfo {
     private Vector size = new Vector(0, 0, 0);
 
     @Builder.Default
+    private Vector minRandom = new Vector(0, 0, 0);
+
+    @Builder.Default
+    private Vector maxRandom = new Vector(0, 0, 0);
+
+    @Builder.Default
     private HashMap<String, String> characters = new HashMap<>();
 }

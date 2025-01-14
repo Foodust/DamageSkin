@@ -143,6 +143,18 @@ public class ConfigModule {
         double sizeZ = config.getDouble("size.z", 0);
         builder.size(new Vector(sizeX, sizeY, sizeZ));
 
+        // Min Random Vector 설정
+        double minX = config.getDouble("random.min.x", 0);
+        double minY = config.getDouble("random.min.y", 0);
+        double minZ = config.getDouble("random.min.z", 0);
+        builder.minRandom(new Vector(minX, minY, minZ));
+
+        // Max Random Vector 설정
+        double maxX = config.getDouble("random.max.x", 0);
+        double maxY = config.getDouble("random.max.y", 0);
+        double maxZ = config.getDouble("random.max.z", 0);
+        builder.minRandom(new Vector(maxX, maxY, maxZ));
+
         // Characters HashMap 설정
         HashMap<String, String> characters = new HashMap<>();
         ConfigurationSection charsSection = config.getConfigurationSection("characters");
