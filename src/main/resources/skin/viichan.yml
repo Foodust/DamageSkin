@@ -1,9 +1,9 @@
-billboard: "FIXED"
-duration: 30        # 1.5초 동안 0.5 y 만큼 0.5 초 마다 상승
+billboard: "CENTER"
+duration: 20
 size:
-  x: 0
-  y: 0
-  z: 0
+  x: 1
+  y: 1
+  z: 1
 location:
   speed: 0.01
   x: 0
