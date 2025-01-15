@@ -3,6 +3,7 @@ package org.foodust.damageSkin.GameModule;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -49,6 +50,7 @@ public class DamageSkinModule {
     public void DamagedTarget(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player)) return;
         Entity entity = event.getEntity();
+        if (!(entity instanceof LivingEntity livingEntity)) return;
         double damage = event.getDamage();
         UUID uuid = player.getUniqueId();
 
@@ -72,8 +74,9 @@ public class DamageSkinModule {
 
         // 엔티티의 바운딩 박스 기준으로 TextDisplay 생성
         BoundingBox boundingBox = entity.getBoundingBox();
+        double y = livingEntity.getEyeHeight();
         Vector center = boundingBox.getCenter();
-        Location entityLocation = new Location(player.getWorld(), center.getX(), center.getY() + 1, center.getZ());
+        Location entityLocation = new Location(player.getWorld(), center.getX(), y, center.getZ());
 
         Location initialDisplayLocation = entityLocation.clone().add(
                 skinInfo.getLocation().getX() + randomX,
