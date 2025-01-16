@@ -1,6 +1,7 @@
 package org.foodust.damageSkin.GameModule;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -74,7 +75,7 @@ public class DamageSkinModule {
 
         // 엔티티의 바운딩 박스 기준으로 TextDisplay 생성
         BoundingBox boundingBox = entity.getBoundingBox();
-        double y = livingEntity.getEyeHeight();
+        double y = livingEntity.getEyeHeight() + 1;
         Vector center = boundingBox.getCenter();
         Location entityLocation = new Location(player.getWorld(), center.getX(), y, center.getZ());
 
@@ -93,33 +94,22 @@ public class DamageSkinModule {
         );
         textDisplay.setDefaultBackground(false);
         textDisplay.setShadowed(false);
+        textDisplay.setBackgroundColor(Color.fromARGB(0, 0, 0, 0));
 
-        // 애니메이션 관련 변수
         long duration = skinInfo.getDuration();
         double speed = skinInfo.getSpeed();
         Vector moveVector = skinInfo.getLocation().clone();
-        Location lastKnownEntityLocation = entityLocation.clone();
-
         // 이동 태스크 생성
         BukkitTask moveTask = taskModule.runBukkitTaskTimer(() -> {
-            // 엔티티의 현재 위치와 마지막으로 알려진 위치의 차이 계산
-            Location currentEntityLocation = entity.getLocation();
-            Vector locationDiff = currentEntityLocation.toVector().subtract(lastKnownEntityLocation.toVector());
-
             // TextDisplay의 현재 위치 업데이트
-            Location currentDisplayLoc = textDisplay.getLocation();
+            Location currentDisplayLoc = textDisplay.getLocation().clone();
             currentDisplayLoc.add(
-                    moveVector.getX() * speed + locationDiff.getX(),
-                    moveVector.getY() * speed + locationDiff.getY(),
-                    moveVector.getZ() * speed + locationDiff.getZ()
+                    moveVector.getX() * speed,
+                    moveVector.getY() * speed,
+                    moveVector.getZ() * speed
             );
 
             textDisplay.teleport(currentDisplayLoc);
-
-            // 마지막 알려진 엔티티 위치 업데이트
-            lastKnownEntityLocation.setX(currentEntityLocation.getX());
-            lastKnownEntityLocation.setY(currentEntityLocation.getY());
-            lastKnownEntityLocation.setZ(currentEntityLocation.getZ());
         }, 0L, 1L);
 
         // duration 후 제거 태스크
