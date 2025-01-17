@@ -75,19 +75,12 @@ public class DamageSkinModule {
 
         // 엔티티의 바운딩 박스 기준으로 TextDisplay 생성
         BoundingBox boundingBox = entity.getBoundingBox();
-        double y = livingEntity.getEyeHeight() + 1;
         Vector center = boundingBox.getCenter();
-        Location entityLocation = new Location(player.getWorld(), center.getX(), y, center.getZ());
-
-        Location initialDisplayLocation = entityLocation.clone().add(
-                skinInfo.getLocation().getX() + randomX,
-                skinInfo.getLocation().getY() + randomY,
-                skinInfo.getLocation().getZ() + randomZ
-        );
+        Location entityLocation = new Location(player.getWorld(), center.getX() + randomX, center.getY() + livingEntity.getEyeHeight() + randomY, center.getZ() + randomZ);
 
         TextDisplay textDisplay = displayModule.makeTextDisplay(
                 entity,
-                initialDisplayLocation,
+                entityLocation,
                 damageText,
                 skinInfo.getSize(),
                 skinInfo.getBillboard()
