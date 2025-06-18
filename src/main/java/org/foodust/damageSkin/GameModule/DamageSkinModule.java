@@ -1,6 +1,5 @@
 package org.foodust.damageSkin.GameModule;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -49,6 +48,7 @@ public class DamageSkinModule {
     }
 
     public void DamagedTarget(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player player)) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity livingEntity)) return;
