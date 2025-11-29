@@ -1,7 +1,6 @@
-package org.foodust.damageSkin.Message;
+package org.foodust.damageSkin.message;
 
 import lombok.Getter;
-import org.bukkit.ChatColor;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -10,23 +9,20 @@ import java.util.Map;
 @Getter
 public enum BaseMessage {
 
-    // prefix
     PREFIX(""),
     PREFIX_C("<gradient:yellow:blue><bold>[DamageSkin]</bold></gradient> "),
 
-    // info
     INFO_RELOAD("<blue>리로드</blue> 되었습니다."),
     INFO_SET_SKIN("<aqua>스킨</aqua>이 설정 되었습니다."),
     INFO_REMOVE_SKIN(" 님의 <aqua>스킨</aqua>이 해제 되었습니다."),
 
-    // command
     COMMAND_DAMAGE_SKIN("데미지스킨"),
     COMMAND_SET("설정"),
     COMMAND_REMOVE("제거"),
     COMMAND_RELOAD("리로드"),
-    // 기본
+
     DEFAULT("기본"),
-        // Error
+
     ERROR("에러"),
     ERROR_NO_PLAYER("<red>플레이어</red>가 없습니다."),
     ERROR_NO_SKIN("<red>스킨</red>이 없습니다. : "),
@@ -49,6 +45,6 @@ public enum BaseMessage {
     }
 
     public static BaseMessage getByMessage(String message) {
-        return commandInfo.getOrDefault(message,ERROR);
+        return commandInfo.getOrDefault(message, ERROR);
     }
 }
