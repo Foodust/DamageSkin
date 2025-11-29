@@ -10,11 +10,11 @@ import java.util.Map;
 public enum BaseMessage {
 
     PREFIX(""),
-    PREFIX_C("<gradient:yellow:blue><bold>[DamageSkin]</bold></gradient> "),
+    PREFIX_C("[DamageSkin] "),
 
-    INFO_RELOAD("<blue>리로드</blue> 되었습니다."),
-    INFO_SET_SKIN("<aqua>스킨</aqua>이 설정 되었습니다."),
-    INFO_REMOVE_SKIN(" 님의 <aqua>스킨</aqua>이 해제 되었습니다."),
+    INFO_RELOAD("리로드 되었습니다."),
+    INFO_SET_SKIN("스킨이 설정 되었습니다."),
+    INFO_REMOVE_SKIN(" 님의 스킨이 해제 되었습니다."),
 
     COMMAND_DAMAGE_SKIN("데미지스킨"),
     COMMAND_SET("설정"),
@@ -24,10 +24,10 @@ public enum BaseMessage {
     DEFAULT("기본"),
 
     ERROR("에러"),
-    ERROR_NO_PLAYER("<red>플레이어</red>가 없습니다."),
-    ERROR_NO_SKIN("<red>스킨</red>이 없습니다. : "),
-    ERROR_WRONG_COMMAND("<dark_red>잘못 된 명령입니다.</dark_red>"),
-    ERROR_ALREADY_DELETE("<dark_red>이미 제거되었습니다. : </dark_red>"),
+    ERROR_NO_PLAYER("플레이어가 없습니다."),
+    ERROR_NO_SKIN("스킨이 없습니다. : "),
+    ERROR_WRONG_COMMAND("잘못 된 명령입니다."),
+    ERROR_ALREADY_DELETE("이미 제거되었습니다. : "),
     ;
 
     private final String message;
