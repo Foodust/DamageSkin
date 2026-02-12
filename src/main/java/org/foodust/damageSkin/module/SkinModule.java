@@ -276,6 +276,44 @@ public class SkinModule extends BaseModule implements Listener {
         sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.INFO_SET_SKIN.getMessage());
     }
 
+    public void commandSetAll(CommandSender sender, String[] data) {
+        if (data.length < 2) {
+            sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.ERROR_WRONG_COMMAND.getMessage());
+            return;
+        }
+
+        String skinName = data[1];
+        if (!skins.containsKey(skinName)) {
+            sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.ERROR_NO_SKIN.getMessage() + skinName);
+            return;
+        }
+
+        SkinInfo skinInfo = skins.get(skinName);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            UUID uniqueId = player.getUniqueId();
+            playerSkins.put(uniqueId, skinInfo);
+
+            File playerFolder = new File(plugin.getDataFolder(), "player");
+            if (!playerFolder.exists()) {
+                playerFolder.mkdirs();
+            }
+
+            String fileName = "player/" + uniqueId + ".yml";
+            File configFile = new File(plugin.getDataFolder(), fileName);
+            FileConfiguration playerConfig = new YamlConfiguration();
+            playerConfig.set("skinName", skinName);
+            playerConfig.set("playerName", player.getName());
+
+            try {
+                playerConfig.save(configFile);
+            } catch (Exception e) {
+                plugin.getLogger().warning("Failed to save player config: " + e.getMessage());
+            }
+        }
+
+        sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.INFO_SET_ALL_SKIN.getMessage());
+    }
+
     public void commandRemove(CommandSender sender, String[] data) {
         if (data.length < 2) {
             sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.ERROR_WRONG_COMMAND.getMessage());

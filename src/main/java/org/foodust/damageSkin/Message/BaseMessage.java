@@ -14,10 +14,12 @@ public enum BaseMessage {
 
     INFO_RELOAD("리로드 되었습니다."),
     INFO_SET_SKIN("스킨이 설정 되었습니다."),
+    INFO_SET_ALL_SKIN("모든 플레이어에게 스킨이 설정 되었습니다."),
     INFO_REMOVE_SKIN(" 님의 스킨이 해제 되었습니다."),
 
     COMMAND_DAMAGE_SKIN("데미지스킨"),
     COMMAND_SET("설정"),
+    COMMAND_SET_ALL("전체설정"),
     COMMAND_REMOVE("제거"),
     COMMAND_RELOAD("리로드"),
 

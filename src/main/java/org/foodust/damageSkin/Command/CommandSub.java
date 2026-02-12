@@ -31,11 +31,17 @@ public class CommandSub implements TabCompleter {
         if (args.length == 1) {
             StringUtil.copyPartialMatches(args[0], mainSub, completions);
         } else if (args.length == 2) {
-            Set<String> whoSub = Bukkit.getOnlinePlayers().stream()
-                    .map(Player::getName)
-                    .collect(Collectors.toSet());
             switch (BaseMessage.getByMessage(args[0])) {
-                case COMMAND_SET, COMMAND_REMOVE -> StringUtil.copyPartialMatches(args[1], whoSub, completions);
+                case COMMAND_SET, COMMAND_REMOVE -> {
+                    Set<String> whoSub = Bukkit.getOnlinePlayers().stream()
+                            .map(Player::getName)
+                            .collect(Collectors.toSet());
+                    StringUtil.copyPartialMatches(args[1], whoSub, completions);
+                }
+                case COMMAND_SET_ALL -> {
+                    Set<String> skinsSub = plugin.getSkinModule().getSkins().keySet();
+                    StringUtil.copyPartialMatches(args[1], skinsSub, completions);
+                }
             }
         } else if (args.length == 3) {
             Set<String> skinsSub = plugin.getSkinModule().getSkins().keySet();

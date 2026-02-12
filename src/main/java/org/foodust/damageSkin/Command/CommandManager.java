@@ -28,6 +28,7 @@ public class CommandManager implements CommandExecutor {
         BaseMessage byBaseMessage = BaseMessage.getByMessage(data[0]);
         switch (byBaseMessage) {
             case COMMAND_SET -> plugin.getSkinModule().commandSet(sender, data);
+            case COMMAND_SET_ALL -> plugin.getSkinModule().commandSetAll(sender, data);
             case COMMAND_REMOVE -> plugin.getSkinModule().commandRemove(sender, data);
             case COMMAND_RELOAD -> plugin.getSkinModule().commandReload(sender);
             default -> sender.sendMessage(BaseMessage.PREFIX_C.getMessage() + BaseMessage.ERROR_WRONG_COMMAND.getMessage());
